@@ -7,6 +7,8 @@
 #include "GameplayTagContainer.h"
 #include "WeaponBase.generated.h"
 
+class UStartUpDatabase;
+
 UCLASS()
 class TOWERDEFENSE_API AWeaponBase : public AActor
 {
@@ -22,6 +24,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "WeaponData")
 	bool bIsWeaponPrimary;
+
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -35,7 +39,13 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	USkeletalMeshComponent* WeaponSkeletalMesh;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Database", meta = (AllowPrivateAccess = "true"))
+	TSoftObjectPtr<UStartUpDatabase> WeaponAbilitiesData;
+
+
 public:
+
+	FORCEINLINE TSoftObjectPtr<UStartUpDatabase> GetWeaponAbilitiesDataSoftPtr() const { return WeaponAbilitiesData; }
 	FORCEINLINE FName GetSocketToAttach() const { return SocketToAttach; }
 	FORCEINLINE USkeletalMeshComponent* GetWeaponMesh() const { return WeaponSkeletalMesh; }
 

@@ -3,6 +3,10 @@
 
 #include "Components/BaseCombatComponent.h"
 #include "Weapons/WeaponBase.h"
+#include "Data/StartUpDatabase.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystem/TWDAbilitySystemComponent.h"
+
 #include "TWDDebugHelper.h"
 
 bool UBaseCombatComponent::RegisterSpawnedWeapon(FGameplayTag WeaponTagToRegister, AWeaponBase* WeaponToRegister, bool bRegisterAsEquippedWeapon, bool bIsWeaponPrimary)
@@ -21,6 +25,21 @@ bool UBaseCombatComponent::RegisterSpawnedWeapon(FGameplayTag WeaponTagToRegiste
 		{
 			SecundaryCurrentEquippedWeaponTag = WeaponTagToRegister;
 		}
+
+		if (UStartUpDatabase* WeaponAbilities = WeaponToRegister->GetWeaponAbilitiesDataSoftPtr().LoadSynchronous())
+		{
+			UTWDAbilitySystemComponent* ASC = Cast<UTWDAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner()));
+
+			if (IsValid(ASC))
+			{
+				WeaponAbilities->GiveToAbilitySystemComponent(ASC);
+			}
+			else
+			{
+				return false;
+			}
+		}
+
 	}
 
 	const FString WeaponString = FString::Printf(TEXT("A weapon named: %s has been registered using the tag %s"), *WeaponToRegister->GetName(), *WeaponTagToRegister.ToString());

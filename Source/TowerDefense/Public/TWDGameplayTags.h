@@ -15,6 +15,11 @@ namespace TWDGameplayTags
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Abilities_Attack_Light);
 		}
 
+		namespace Block
+		{
+			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Abilities_Block);
+		}
+
 		namespace Player
 		{
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Abilties_Player_Equip_Hammer);

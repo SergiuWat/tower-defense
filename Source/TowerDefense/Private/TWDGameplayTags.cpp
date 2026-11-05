@@ -14,6 +14,11 @@ namespace TWDGameplayTags
 			UE_DEFINE_GAMEPLAY_TAG(TWDGameplayTags_Abilities_Attack_Light, "TWDGameplayTags.Abilities.Attack.Light");
 		}
 
+		namespace Block
+		{
+			UE_DEFINE_GAMEPLAY_TAG(TWDGameplayTags_Abilities_Block, "TWDGameplayTags.Abilities.Block");
+		}
+
 		namespace Player
 		{
 			UE_DEFINE_GAMEPLAY_TAG(TWDGameplayTags_Abilties_Player_Equip_Hammer, "TWDGameplayTags.Abilities.Player.Equip.Hammer");

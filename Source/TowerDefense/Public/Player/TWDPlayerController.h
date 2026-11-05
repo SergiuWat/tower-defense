@@ -10,6 +10,7 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 struct FGameplayTag;
+struct FGameplayTagContainer;
 
 UCLASS()
 class TOWERDEFENSE_API ATWDPlayerController : public APlayerController
@@ -33,11 +34,21 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> JumpAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> LightAttackAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> BlockAction;
+
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 	void Jump();
 	void StopJumping();
+	void LightAttack();
+	void BlockPressed();
+	void BlockReleased();
 
 	void ActivateAbility(const FGameplayTag& AbilityTag);
+	void CancelAbilities(const FGameplayTagContainer& CancelAbilitiesTagContainer);
 
 };

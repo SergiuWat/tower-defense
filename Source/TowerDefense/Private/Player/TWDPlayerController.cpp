@@ -7,6 +7,7 @@
 #include "AbilitySystemComponent.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "GameplayTagContainer.h"
 
 #include "TWDGameplayTags.h"
 
@@ -26,6 +27,9 @@ void ATWDPlayerController::SetupInputComponent()
 	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ThisClass::StopJumping);
 	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ThisClass::Move);
 	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ThisClass::Look);
+	EnhancedInputComponent->BindAction(LightAttackAction, ETriggerEvent::Triggered, this, &ThisClass::LightAttack);
+	EnhancedInputComponent->BindAction(BlockAction, ETriggerEvent::Started, this, &ThisClass::BlockPressed);
+	EnhancedInputComponent->BindAction(BlockAction, ETriggerEvent::Completed, this, &ThisClass::BlockReleased);
 
 }
 
@@ -66,10 +70,38 @@ void ATWDPlayerController::StopJumping()
 	GetCharacter()->StopJumping();
 }
 
+void ATWDPlayerController::LightAttack()
+{
+	ActivateAbility(TWDGameplayTags::Abilities::Attack::TWDGameplayTags_Abilities_Attack_Light);
+}
+
+void ATWDPlayerController::BlockPressed()
+{
+	ActivateAbility(TWDGameplayTags::Abilities::Block::TWDGameplayTags_Abilities_Block);
+}
+
+
+void ATWDPlayerController::BlockReleased()
+{
+	FGameplayTagContainer BlockTags;
+	BlockTags.AddTag(TWDGameplayTags::Abilities::Block::TWDGameplayTags_Abilities_Block);
+	CancelAbilities(BlockTags);
+}
+
+
 void ATWDPlayerController::ActivateAbility(const FGameplayTag& AbilityTag)
 {
 	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn());
 	if (!IsValid(ASC)) return;
 
 	ASC->TryActivateAbilitiesByTag(AbilityTag.GetSingleTagContainer());
+	
+}
+
+void ATWDPlayerController::CancelAbilities(const FGameplayTagContainer& CancelAbilitiesTagContainer)
+{
+	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn());
+	if (!IsValid(ASC)) return;
+
+	ASC->CancelAbilities(&CancelAbilitiesTagContainer);
 }
