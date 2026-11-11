@@ -13,6 +13,19 @@ void UTWDAbilitySystemComponent::OnGiveAbility(FGameplayAbilitySpec& AbilitySpec
 	HandleActivateOnGiven(AbilitySpec);
 }
 
+FGameplayAbilitySpecHandle UTWDAbilitySystemComponent::GiveAbilityIfMissing(const FGameplayAbilitySpec& AbilitySpec)
+{
+	if (!IsValid(AbilitySpec.Ability)) return FGameplayAbilitySpecHandle();
+
+	if (const FGameplayAbilitySpec* ExistingSpec = FindAbilitySpecFromClass(AbilitySpec.Ability->GetClass()))
+	{
+		return ExistingSpec->Handle;
+	}
+
+	return GiveAbility(AbilitySpec);
+
+}
+
 void UTWDAbilitySystemComponent::SetAbilityLevel(TSubclassOf<UGameplayAbility> AbilityClass, int32 Level)
 {
 	if (!IsValid(GetAvatarActor()) || Level <= 0) return;

@@ -8,6 +8,7 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayTagContainer.h"
+#include "UI/TWDHud.h"
 
 #include "TWDGameplayTags.h"
 
@@ -30,6 +31,18 @@ void ATWDPlayerController::SetupInputComponent()
 	EnhancedInputComponent->BindAction(LightAttackAction, ETriggerEvent::Triggered, this, &ThisClass::LightAttack);
 	EnhancedInputComponent->BindAction(BlockAction, ETriggerEvent::Started, this, &ThisClass::BlockPressed);
 	EnhancedInputComponent->BindAction(BlockAction, ETriggerEvent::Completed, this, &ThisClass::BlockReleased);
+
+}
+
+void ATWDPlayerController::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+
+	ATWDHud* HUD = Cast<ATWDHud>(GetHUD());
+	if (IsValid(HUD))
+	{
+		HUD->TryInitializeOverlay();
+	}
 
 }
 

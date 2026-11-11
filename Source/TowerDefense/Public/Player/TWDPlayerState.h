@@ -7,7 +7,9 @@
 #include "AbilitySystemInterface.h"
 #include "TWDPlayerState.generated.h"
 
-
+class UTWDHealthSet;
+class UTWDManaSet;
+class UTWDLevelSet;
 class UTWDAbilitySystemComponent;
 /**
  * 
@@ -21,8 +23,20 @@ public:
 	ATWDPlayerState();
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
 private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Crash|Abilities")
 	TObjectPtr<UTWDAbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY()
+	TObjectPtr<UTWDHealthSet> HealthSet;
+
+	UPROPERTY()
+	TObjectPtr<UTWDManaSet> ManaSet;
+
+	UPROPERTY()
+	TObjectPtr<UTWDLevelSet> LevelSet;
+
+
 };

@@ -18,6 +18,8 @@ class TOWERDEFENSE_API UTWDAbilitySystemComponent : public UAbilitySystemCompone
 public:
 
 	virtual void OnGiveAbility(FGameplayAbilitySpec& AbilitySpec) override;
+
+	FGameplayAbilitySpecHandle GiveAbilityIfMissing(const FGameplayAbilitySpec& AbilitySpec);
 	
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
 	void SetAbilityLevel(TSubclassOf<UGameplayAbility> AbilityClass, int32 Level);

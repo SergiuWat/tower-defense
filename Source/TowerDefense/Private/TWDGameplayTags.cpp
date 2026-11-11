@@ -33,6 +33,11 @@ namespace TWDGameplayTags
 			UE_DEFINE_GAMEPLAY_TAG(TWDGameplayTags_Event_Player_Equip_Hammer, "TWDGameplayTags.Event.Player.Equip.Hammer");
 			UE_DEFINE_GAMEPLAY_TAG(TWDGameplayTags_Event_Player_Equip_Shield, "TWDGameplayTags.Event.Player.Equip.Shield");
 		}
+		namespace Weapon
+		{
+			UE_DEFINE_GAMEPLAY_TAG(TWDGameplayTags_Event_Weapon_Hammer_Hit, "TWDGameplayTags.Event.Weapon.Hammer.Hit");
+			UE_DEFINE_GAMEPLAY_TAG(TWDGameplayTags_Event_Weapon_Shield_Block, "TWDGameplayTags.Event.Weapon.Shield.Block");
+		}
 	}
 
 	namespace Weapon

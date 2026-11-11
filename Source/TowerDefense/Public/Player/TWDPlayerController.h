@@ -20,6 +20,9 @@ class TOWERDEFENSE_API ATWDPlayerController : public APlayerController
 protected:
 
 	virtual void SetupInputComponent() override;
+
+	virtual void OnPossess(APawn* InPawn) override;
+
 private:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Input")

@@ -34,6 +34,12 @@ namespace TWDGameplayTags
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Event_Player_Equip_Hammer);
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Event_Player_Equip_Shield);
 		}
+
+		namespace Weapon
+		{
+			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Event_Weapon_Hammer_Hit);
+			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Event_Weapon_Shield_Block);
+		}
 	}
 
 	namespace Weapon

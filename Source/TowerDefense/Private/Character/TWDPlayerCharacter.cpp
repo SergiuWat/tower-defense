@@ -10,6 +10,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/PlayerCharacterCombatComponent.h"
 #include "Data/StartUpDatabase.h"
+#include "AbilitySystem/AttributeSets/TWDHealthSet.h"
+#include "UI/TWDHud.h"
 
 #include "TWDDebugHelper.h"
 
@@ -49,6 +51,7 @@ UAbilitySystemComponent* ATWDPlayerCharacter::GetAbilitySystemComponent() const
 
 	return PS->GetAbilitySystemComponent();
 }
+
 
 void ATWDPlayerCharacter::PossessedBy(AController* NewController)
 {

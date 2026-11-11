@@ -25,6 +25,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "WeaponData")
 	bool bIsWeaponPrimary;
 
+	UPROPERTY(EditDefaultsOnly, Category = "WeaponData")
+	float BaseDamage = 20;
 
 protected:
 
@@ -32,7 +34,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "WeaponData")
 	FName SocketToAttach;
-
 
 private:
 

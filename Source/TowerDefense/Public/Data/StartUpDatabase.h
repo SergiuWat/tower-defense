@@ -9,6 +9,7 @@
 
 class UTWDGameplayAbility;
 class UTWDAbilitySystemComponent;
+class UGameplayEffect;
 
 UCLASS()
 class TOWERDEFENSE_API UStartUpDatabase : public UDataAsset
@@ -25,6 +26,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "StartUpData")
 	TArray<TSubclassOf<UTWDGameplayAbility>> ReactiveAbilities;
+
+	UPROPERTY(EditDefaultsOnly, Category = "StartUpData")
+	TSubclassOf<UGameplayEffect> InitialAttributesEffect;
 
 	void GrantAbilities(const TArray<TSubclassOf<UTWDGameplayAbility>> AbilitiesToGive, UTWDAbilitySystemComponent* ASCToGive, int32 ApplyLevel);
 	

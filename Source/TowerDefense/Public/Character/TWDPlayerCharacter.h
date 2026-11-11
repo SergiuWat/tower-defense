@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Character/TWDBaseCharacter.h"
-
 #include "TWDPlayerCharacter.generated.h"
 
 class UAbilitySystemComponent;
@@ -12,6 +11,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UPlayerCharacterCombatComponent;
 class UStartUpDatabase;
+class UAttributeSet;
 /**
  * 
  */
@@ -24,13 +24,13 @@ public:
 	ATWDPlayerCharacter();
 
 	virtual void BeginPlay() override;
-
+	
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 protected:
 	virtual void PossessedBy(AController* NewController) override;
 private:
-
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<USpringArmComponent> CameraBoom;
 
