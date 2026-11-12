@@ -6,6 +6,7 @@
 #include "Character/TWDPlayerCharacter.h"
 #include "Kismet/KismetMathLibrary.h"
 
+
 void UPlayerCharacterAnimInstance::NativeInitializeAnimation()
 {
 	Super::NativeInitializeAnimation();
@@ -26,6 +27,7 @@ void UPlayerCharacterAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	Velocity2D.Z = 0;
 	GroundSpeed = Velocity2D.Size2D();
 
+	
 	Direction = CalculateDirection(Velocity2D, PlayerCharacter->GetActorRotation());
 	VelocityLocomotionDirection = CalculateLocomotionDirection(Direction, VelocityLocomotionDirection);
 

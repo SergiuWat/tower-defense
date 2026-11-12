@@ -35,7 +35,7 @@ namespace TWDGameplayTags
 		}
 		namespace Weapon
 		{
-			UE_DEFINE_GAMEPLAY_TAG(TWDGameplayTags_Event_Weapon_Hammer_Hit, "TWDGameplayTags.Event.Weapon.Hammer.Hit");
+			UE_DEFINE_GAMEPLAY_TAG(TWDGameplayTags_Event_Weapon_MeleeHit, "TWDGameplayTags.Event.Weapon.MeleeHit");
 			UE_DEFINE_GAMEPLAY_TAG(TWDGameplayTags_Event_Weapon_Shield_Block, "TWDGameplayTags.Event.Weapon.Shield.Block");
 		}
 	}
@@ -46,6 +46,11 @@ namespace TWDGameplayTags
 		{
 			UE_DEFINE_GAMEPLAY_TAG(TWDGameplayTags_Weapon_Player_Hammer, "TWDGameplayTags.Weapon.Player.Hammer");
 			UE_DEFINE_GAMEPLAY_TAG(TWDGameplayTags_Weapon_Player_Shield, "TWDGameplayTags.Weapon.Player.Shield");
+		}
+
+		namespace Data
+		{
+			UE_DEFINE_GAMEPLAY_TAG(TWDGameplayTags_Weapon_Data_Damage, "TWDGameplayTags.Weapon.Data.Damage");
 		}
 	}
 }

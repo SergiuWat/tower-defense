@@ -8,6 +8,7 @@
 
 
 class UAnimMontage;
+
 /**
  * 
  */
@@ -28,6 +29,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Combo")
 	float ComboProgressWindow = 0.3f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	TSubclassOf<UGameplayEffect> DamageEffectClass;
+
 private:
 
 	int32 CountComboAttack = 1;
@@ -37,6 +41,9 @@ private:
 
 	UFUNCTION()
 	void OnPlayAndWaitTaskEventTriggerInterrupted();
+	
+	UFUNCTION()
+	void OnHitEventReceived(FGameplayEventData Payload);
 
 	UFUNCTION()
 	void ResetComboCount();
