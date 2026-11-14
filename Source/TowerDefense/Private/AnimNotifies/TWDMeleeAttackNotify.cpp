@@ -8,6 +8,9 @@
 #include "Character/TWDPlayerCharacter.h"
 #include "TWDGameplayTags.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "Components/BaseCombatComponent.h"
+#include "Weapons/WeaponBase.h"
+#include "Components/SkeletalMeshComponent.h"
 
 void UTWDMeleeAttackNotify::NotifyTick(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float FrameDeltaTime, const FAnimNotifyEventReference& EventReference)
 {
@@ -26,7 +29,19 @@ TArray<FHitResult> UTWDMeleeAttackNotify::PerformSphereTrace(USkeletalMeshCompon
 
 	TArray<FHitResult> OutHits;
 
-	const FTransform SocketTransform = MeshComp->GetSocketTransform(SocketName);
+	AActor* Attacker = MeshComp->GetOwner();
+	if (!IsValid(Attacker)) return OutHits;
+
+	UBaseCombatComponent* CombatComponent = Attacker->FindComponentByClass<UBaseCombatComponent>();
+
+	if(!IsValid(CombatComponent)) return OutHits;
+
+	AWeaponBase* Weapon = CombatComponent->GetCharacterPrimayWeaponEquipped();
+
+	if (!IsValid(Weapon)) return OutHits;
+
+
+	const FTransform SocketTransform = Weapon->GetWeaponMesh()->GetSocketTransform(SocketName);
 	const FVector Start = SocketTransform.GetLocation();
 	const FVector ExtendedSocketDirection = UKismetMathLibrary::GetForwardVector(SocketTransform.GetRotation().Rotator()) * SocketExtensionOffset;
 	const FVector End = Start - ExtendedSocketDirection;
@@ -75,6 +90,7 @@ void UTWDMeleeAttackNotify::SendEventsToActors(USkeletalMeshComponent* MeshComp,
 	{
 		AActor* Target = Hit.GetActor();
 		if (!IsValid(Target)) continue;
+		
 
 		UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target);
 		if (!IsValid(TargetASC)) continue;
@@ -87,6 +103,7 @@ void UTWDMeleeAttackNotify::SendEventsToActors(USkeletalMeshComponent* MeshComp,
 		Payload.Instigator = Attacker;
 		Payload.ContextHandle = ContextHandle;
 		Payload.Instigator = MeshComp->GetOwner();
+
 
 		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Attacker, TWDGameplayTags::Event::Weapon::TWDGameplayTags_Event_Weapon_MeleeHit, Payload);
 	}

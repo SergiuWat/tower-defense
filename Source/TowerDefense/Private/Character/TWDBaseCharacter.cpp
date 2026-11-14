@@ -8,8 +8,6 @@ ATWDBaseCharacter::ATWDBaseCharacter()
 {
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
-
-
 }
 
 UAbilitySystemComponent* ATWDBaseCharacter::GetAbilitySystemComponent() const

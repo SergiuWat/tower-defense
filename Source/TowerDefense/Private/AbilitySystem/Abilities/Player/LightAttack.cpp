@@ -21,6 +21,8 @@ void ULightAttack::ActivateAbility(const FGameplayAbilitySpecHandle Handle, cons
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 
+	HitActors.Reset();
+
 	GetWorld()->GetTimerManager().ClearTimer(ComboTimerHandle);
 
 	if (LightAttackAnimMontagesMap.IsEmpty())
@@ -108,6 +110,12 @@ void ULightAttack::OnHitEventReceived(FGameplayEventData Payload)
 
 	if (!IsValid(WeaponBase)) return;
 
+	const AActor* Target = Payload.Target.Get();
+	if (!IsValid(Target)) return;
+
+	const TWeakObjectPtr<const AActor> TargetKey(Target);
+
+	if (HitActors.Contains(TargetKey)) return;
 
 	FGameplayEffectContextHandle Context = ASC->MakeEffectContext();
 	Context.AddSourceObject(WeaponBase);
@@ -120,6 +128,8 @@ void ULightAttack::OnHitEventReceived(FGameplayEventData Payload)
 
 	if (!SpecHandle.IsValid()) return;
 
+	// TODO: to recalculate when i add the stats
+	HitActors.Add(TargetKey);
 	const FGameplayTag& DamageTag = TWDGameplayTags::Weapon::Data::TWDGameplayTags_Weapon_Data_Damage;
 	SpecHandle.Data->SetSetByCallerMagnitude(DamageTag, WeaponBase->BaseDamage);
 	ASC->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), TargetASC);

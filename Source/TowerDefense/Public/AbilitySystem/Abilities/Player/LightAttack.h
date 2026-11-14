@@ -36,6 +36,9 @@ private:
 
 	int32 CountComboAttack = 1;
 
+	// Created to make sure that is sending the gameplay effect once per hit actor and not multiple times
+	TSet<TWeakObjectPtr<const AActor>> HitActors;
+
 	UFUNCTION()
 	void OnPlayAndWaitTaskEventTriggerCompleted();
 

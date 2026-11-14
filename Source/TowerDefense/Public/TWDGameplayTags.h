@@ -8,7 +8,9 @@ namespace TWDGameplayTags
 {
 	namespace Abilities
 	{
+
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Abilities_ActivateOnGiven);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Abilities_HitReact);
 
 		namespace Attack
 		{
@@ -40,6 +42,9 @@ namespace TWDGameplayTags
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Event_Weapon_MeleeHit);
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Event_Weapon_Shield_Block);
 		}
+
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Event_HitReact);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Event_Death);
 	}
 
 	namespace Weapon
@@ -49,10 +54,23 @@ namespace TWDGameplayTags
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Weapon_Player_Hammer);
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Weapon_Player_Shield);
 		}
-
 		namespace Data
 		{
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Weapon_Data_Damage);
 		}
+		
+	}
+
+	namespace Enemies
+	{
+		namespace Data
+		{
+			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Enemies_Data_Xp);
+		}
+	}
+
+	namespace State
+	{
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_State_Death);
 	}
 }
