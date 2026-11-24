@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "GenericTeamAgentInterface.h"
 #include "TWDPlayerController.generated.h"
 
 class UInputMappingContext;
@@ -13,10 +14,16 @@ struct FGameplayTag;
 struct FGameplayTagContainer;
 
 UCLASS()
-class TOWERDEFENSE_API ATWDPlayerController : public APlayerController
+class TOWERDEFENSE_API ATWDPlayerController : public APlayerController, public IGenericTeamAgentInterface
 {
 	GENERATED_BODY()
 	
+public:
+	ATWDPlayerController();
+
+	// Need for AI this is from IGenericTeamAgentInterface
+	virtual FGenericTeamId GetGenericTeamId() const override;
+
 protected:
 
 	virtual void SetupInputComponent() override;
@@ -25,6 +32,11 @@ protected:
 
 private:
 	
+	// We need this so the AI can now who is enemy and who is friendly
+	FGenericTeamId PlayerCharacterTeamID;
+
+	// Input actions and functions
+
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputMappingContext> InputMappingContexts;
 
@@ -53,5 +65,7 @@ private:
 
 	void ActivateAbility(const FGameplayTag& AbilityTag);
 	void CancelAbilities(const FGameplayTagContainer& CancelAbilitiesTagContainer);
+
+	// Input actions and functions
 
 };

@@ -12,15 +12,7 @@ void UStartUpDatabase::GiveToAbilitySystemComponent(UTWDAbilitySystemComponent* 
 
 	if (InitialAttributesEffect)
 	{
-		FGameplayEffectContextHandle Context = ASCToGive->MakeEffectContext();
-		Context.AddSourceObject(this);
-
-		FGameplayEffectSpecHandle SpecHandle = ASCToGive->MakeOutgoingSpec(InitialAttributesEffect, ApplyLevel, Context);
-
-		if (SpecHandle.IsValid())
-		{
-			ASCToGive->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
-		}
+		ASCToGive->TrySendIntialAttributeGameplayEffectToSelf(FGameplayEffectContextHandle(), InitialAttributesEffect, 1);
 	}
 
 	GrantAbilities(ActivateOnGivenAbilities, ASCToGive, ApplyLevel);

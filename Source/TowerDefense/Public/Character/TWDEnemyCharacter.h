@@ -12,6 +12,8 @@ class UTWDAbilitySystemComponent;
 class UTWDHealthSet;
 class UWidgetComponent;
 class UStartUpDatabase;
+class USphereComponent;
+
 /**
  * 
  */
@@ -29,8 +31,21 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Rewards")
 	float XPReward = 10.f;
+
+	UFUNCTION()
+	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+
 private:
 	
+	void InitEnemyStartUpDataAsync();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USphereComponent> EnemyAggroSphereCollision;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UEnemyCombatComponent> CombatComponent;
 

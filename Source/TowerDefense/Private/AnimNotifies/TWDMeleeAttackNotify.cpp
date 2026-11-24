@@ -49,6 +49,7 @@ TArray<FHitResult> UTWDMeleeAttackNotify::PerformSphereTrace(USkeletalMeshCompon
 	// might have to change this for when enemies will use it because it might hit other enemies and we dont want that
 	FCollisionQueryParams Params;
 	Params.AddIgnoredActor(MeshComp->GetOwner());
+	
 
 	FCollisionResponseParams ResponseParams;
 	ResponseParams.CollisionResponse.SetAllChannels(ECR_Ignore);
@@ -62,7 +63,7 @@ TArray<FHitResult> UTWDMeleeAttackNotify::PerformSphereTrace(USkeletalMeshCompon
 
 	if (bDrawDebugs)
 	{
-		DrawDebugSphereTraceMulti(
+		/*DrawDebugSphereTraceMulti(
 			World,
 			Start,
 			End,
@@ -72,7 +73,7 @@ TArray<FHitResult> UTWDMeleeAttackNotify::PerformSphereTrace(USkeletalMeshCompon
 			OutHits,
 			FColor::Red,
 			FColor::Green,
-			5.f);
+			5.f);*/
 	}
 
 	return OutHits;

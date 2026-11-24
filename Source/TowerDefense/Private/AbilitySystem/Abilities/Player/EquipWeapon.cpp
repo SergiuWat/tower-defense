@@ -6,6 +6,7 @@
 #include "Character/TWDPlayerCharacter.h"
 #include "Components/PlayerCharacterCombatComponent.h"
 #include "TWDGameplayTags.h"
+#include "Components/BaseCombatComponent.h"
 
 #include "TWDDebugHelper.h"
 
@@ -16,7 +17,7 @@ void UEquipWeapon::ActivateAbility(const FGameplayAbilitySpecHandle Handle, cons
 	
 	checkf(IsValid(WeaponToEquip), TEXT("Please provide a valid Weapon class"));
 
-	if (!IsValid(WeaponToEquip) || !GetPlayerCharacterFromActorInfo())
+	if (!IsValid(WeaponToEquip) || !GetAvatarActorFromActorInfo())
 	{
 		EndAbility(Handle, ActorInfo, ActivationInfo, true, true);
 		return;
@@ -28,7 +29,7 @@ void UEquipWeapon::ActivateAbility(const FGameplayAbilitySpecHandle Handle, cons
 
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	SpawnParameters.Owner = GetPlayerCharacterFromActorInfo();
+	SpawnParameters.Owner = GetAvatarActorFromActorInfo();
 
 	AWeaponBase* SpawnedWeapon = GetWorld()->SpawnActor<AWeaponBase>(WeaponToEquip, SpawnTransform, SpawnParameters);
 
@@ -44,9 +45,16 @@ void UEquipWeapon::ActivateAbility(const FGameplayAbilitySpecHandle Handle, cons
 		EAttachmentRule::KeepWorld,
 		false
 	);
+	ACharacter* Character = Cast<ACharacter>(GetAvatarActorFromActorInfo());
 
-	checkf(GetPlayerCharacterFromActorInfo()->GetMesh(), TEXT("Mesh is not valid on Player Character"));
-	if (!IsValid(GetPlayerCharacterFromActorInfo()->GetMesh()))
+	if (!IsValid(Character))
+	{
+		EndAbility(Handle, ActorInfo, ActivationInfo, true, true);
+		return;
+	}
+
+	checkf(Character->GetMesh(), TEXT("Mesh is not valid on Player Character"));
+	if (!IsValid(Character->GetMesh()))
 	{
 		SpawnedWeapon->Destroy();
 		EndAbility(Handle, ActorInfo, ActivationInfo, true, true);
@@ -54,7 +62,7 @@ void UEquipWeapon::ActivateAbility(const FGameplayAbilitySpecHandle Handle, cons
 	}
 
 
-	bool bWasSuccesfull = SpawnedWeapon->AttachToComponent(GetPlayerCharacterFromActorInfo()->GetMesh(), AttachmentRules, SpawnedWeapon->GetSocketToAttach());
+	bool bWasSuccesfull = SpawnedWeapon->AttachToComponent(Character->GetMesh(), AttachmentRules, SpawnedWeapon->GetSocketToAttach());
 
 	if (!bWasSuccesfull)
 	{
@@ -63,7 +71,7 @@ void UEquipWeapon::ActivateAbility(const FGameplayAbilitySpecHandle Handle, cons
 		return;
 	}
 
-	UPlayerCharacterCombatComponent* CombatComponent = GetPlayerCombatComponent();
+	UBaseCombatComponent* CombatComponent = Character->FindComponentByClass<UBaseCombatComponent>();
 
 	checkf(CombatComponent, TEXT("Combat component is not valid on Player Character"));
 	if (!IsValid(CombatComponent))

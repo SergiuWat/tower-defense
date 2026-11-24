@@ -2,6 +2,9 @@
 
 
 #include "Utils/TWDFunctionLibrary.h"
+#include "GenericTeamAgentInterface.h"
+#include "GameFramework/Pawn.h"
+#include "GameFramework/Controller.h"
 
 EHitDirection UTWDFunctionLibrary::GetHitDirection(const FVector& TargetForward, const FVector& ToInstigator)
 {
@@ -34,4 +37,32 @@ FName UTWDFunctionLibrary::GetHitDirectionName(const EHitDirection& HitDirection
 	case EHitDirection::Back: return FName("Back");
 	default: return FName("None");
 	}
+}
+
+bool UTWDFunctionLibrary::IsTargetHostile(const AActor* InstigatorPawn, const AActor* TargetPawn)
+{
+	if (!IsValid(InstigatorPawn) || !IsValid(TargetPawn)) return false;
+
+	const FGenericTeamId InstigatorId = GetTeamIDFromActor(InstigatorPawn);
+	const FGenericTeamId TargetId = GetTeamIDFromActor(TargetPawn);
+
+	return InstigatorId.GetId() != TargetId.GetId();
+}
+
+FGenericTeamId UTWDFunctionLibrary::GetTeamIDFromActor(const AActor* Actor)
+{
+	if (!IsValid(Actor)) return FGenericTeamId::NoTeam;
+
+	if (const IGenericTeamAgentInterface* ActorID = Cast<IGenericTeamAgentInterface>(Actor))
+	{
+		return ActorID->GetGenericTeamId();
+	}
+	if (const APawn* Pawn = Cast<APawn>(Actor))
+	{
+		if (const IGenericTeamAgentInterface* PawnID = Cast<IGenericTeamAgentInterface>(Pawn->GetController()))
+		{
+			return PawnID->GetGenericTeamId();
+		}
+	}
+	return FGenericTeamId::NoTeam;
 }

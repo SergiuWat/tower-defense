@@ -48,11 +48,14 @@ void UTWDHealthSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackDa
 			if (!IsValid(Target)) return;
 
 			const FGameplayEffectContextHandle& ContextHandle = Data.EffectSpec.GetContext();
+
 			FGameplayEventData PayLoad;
+
 			PayLoad.EventTag = TWDGameplayTags::Event::TWDGameplayTags_Event_HitReact;
 
 			// we need to do this because the player character has the ASC on player state and we need the avator actor
 			UAbilitySystemComponent* SourceASC = ContextHandle.GetOriginalInstigatorAbilitySystemComponent();
+
 			if (IsValid(SourceASC))
 			{
 				PayLoad.Instigator = SourceASC->GetAvatarActor();

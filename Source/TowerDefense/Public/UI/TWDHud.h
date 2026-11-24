@@ -36,6 +36,7 @@ public:
 	void HandleHealthChange(const FOnAttributeChangeData& Data);
 	void HandleManaChange(const FOnAttributeChangeData& Data);
 	void HandleXpChange(const FOnAttributeChangeData& Data);
+	void HandleLevelChange(const FOnAttributeChangeData& Data);
 
 
 	void RefreshHUD();
@@ -43,6 +44,7 @@ public:
 	void RefreshHealth();
 	void RefreshMana();
 	void RefreshXp();
+	void RefreshLevel();
 
 	//
 	// Delegate Handles

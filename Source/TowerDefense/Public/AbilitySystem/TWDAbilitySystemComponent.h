@@ -27,6 +27,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
 	void AddToAbilityLevel(TSubclassOf<UGameplayAbility> AbilityClass, int32 Level = 1);
 
+	void TrySendIntialAttributeGameplayEffectToSelf(FGameplayEffectContextHandle Context, TSubclassOf<UGameplayEffect> GameplayEffect, int32 AbilityLevel = 1);
+
 private:
 
 	void HandleActivateOnGiven(const FGameplayAbilitySpec& AbilitySpec);

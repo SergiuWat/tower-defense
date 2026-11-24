@@ -27,6 +27,10 @@ namespace TWDGameplayTags
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Abilties_Player_Equip_Hammer);
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Abilities_Player_Equip_Shield);
 		}
+		namespace Enemies
+		{
+			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Abilities_Enemies_Equip_Sword);
+		}
 	}
 
 	namespace Event
@@ -54,6 +58,12 @@ namespace TWDGameplayTags
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Weapon_Player_Hammer);
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Weapon_Player_Shield);
 		}
+
+		namespace Enemies
+		{
+			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Weapon_Enemies_Sword);
+		}
+
 		namespace Data
 		{
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Weapon_Data_Damage);
@@ -73,4 +83,14 @@ namespace TWDGameplayTags
 	{
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_State_Death);
 	}
+
+	namespace Tower
+	{
+		namespace Data
+		{
+			UE_DECLARE_GAMEPLAY_TAG_EXTERN(TWDGameplayTags_Tower_Data_Damage);
+		}
+		
+	}
+
 }

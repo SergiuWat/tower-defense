@@ -3,6 +3,8 @@
 
 #include "UI/CharacterOverlay.h"
 #include "Components/ProgressBar.h"
+#include "Components/TextBlock.h"
+
 
 void UCharacterOverlay::UpdateHealth(float Health, float MaxHealth)
 {
@@ -24,4 +26,11 @@ void UCharacterOverlay::UpdateXp(float Xp, float MaxXp)
 	if (!IsValid(XpBar) || MaxXp <= 0) return;
 	float XpPercent = FMath::Clamp(Xp / MaxXp, 0, 1);
 	XpBar->SetPercent(XpPercent);
+}
+
+void UCharacterOverlay::UpdateLevelText(float CurrentLevel)
+{
+	if (!IsValid(LevelText)) return;
+	FString TextLevel = FString::Printf(TEXT("Level: %.0f"), CurrentLevel);
+	LevelText->SetText(FText::FromString(TextLevel));
 }

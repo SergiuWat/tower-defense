@@ -11,6 +11,7 @@
 #include "Weapons/WeaponBase.h"
 #include "AbilitySystemGlobals.h"
 #include "Components/PlayerCharacterCombatComponent.h"
+#include "Utils/TWDFunctionLibrary.h"
 
 ULightAttack::ULightAttack()
 {
@@ -97,7 +98,12 @@ void ULightAttack::OnPlayAndWaitTaskEventTriggerInterrupted()
 
 void ULightAttack::OnHitEventReceived(FGameplayEventData Payload)
 {
-	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
+
+	bool bIsTargetHostile = UTWDFunctionLibrary::IsTargetHostile(GetAvatarActorFromActorInfo(), Payload.Target.Get());
+
+	if (!bIsTargetHostile) return;
+
+	UAbilitySystemComponent* ASC = GetAbilitySystemComponentFromActorInfo();
 	UAbilitySystemComponent* TargetASC = UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(Payload.Target.Get());
 
 	if (!IsValid(ASC) || !IsValid(TargetASC) || !IsValid(DamageEffectClass)) return;
@@ -119,21 +125,17 @@ void ULightAttack::OnHitEventReceived(FGameplayEventData Payload)
 
 	FGameplayEffectContextHandle Context = ASC->MakeEffectContext();
 	Context.AddSourceObject(WeaponBase);
+
 	if (const FHitResult* Hit = Payload.ContextHandle.GetHitResult())
 	{
 		Context.AddHitResult(*Hit);
 	}
 
-	FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), Context);
-
-	if (!SpecHandle.IsValid()) return;
-
-	// TODO: to recalculate when i add the stats
-	HitActors.Add(TargetKey);
 	const FGameplayTag& DamageTag = TWDGameplayTags::Weapon::Data::TWDGameplayTags_Weapon_Data_Damage;
-	SpecHandle.Data->SetSetByCallerMagnitude(DamageTag, WeaponBase->BaseDamage);
-	ASC->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), TargetASC);
 
+	TrySendGameplayEffectToActor(TargetASC, Context, DamageEffectClass, DamageTag, WeaponBase->BaseDamage);
+
+	HitActors.Add(TargetKey);
 
 }
 

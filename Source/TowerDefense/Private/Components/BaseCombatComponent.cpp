@@ -13,8 +13,6 @@ bool UBaseCombatComponent::RegisterSpawnedWeapon(FGameplayTag WeaponTagToRegiste
 {
 	if (!IsValid(WeaponToRegister) || !WeaponTagToRegister.IsValid()) return false;
 
-	CharacterCarriedWeaponMap.Emplace(WeaponTagToRegister, WeaponToRegister);
-
 	if (bRegisterAsEquippedWeapon)
 	{
 		if (bIsWeaponPrimary)
@@ -42,8 +40,9 @@ bool UBaseCombatComponent::RegisterSpawnedWeapon(FGameplayTag WeaponTagToRegiste
 
 	}
 
-	const FString WeaponString = FString::Printf(TEXT("A weapon named: %s has been registered using the tag %s"), *WeaponToRegister->GetName(), *WeaponTagToRegister.ToString());
-	Debug::Print(WeaponString);
+	CharacterCarriedWeaponMap.Emplace(WeaponTagToRegister, WeaponToRegister);
+	//const FString WeaponString = FString::Printf(TEXT("A weapon named: %s has been registered using the tag %s"), *WeaponToRegister->GetName(), *WeaponTagToRegister.ToString());
+	//Debug::Print(WeaponString);
 	return true;
 }
 

@@ -24,20 +24,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Montages")
 	TObjectPtr<UAnimMontage> DeathMontage;
 
-	FTimerHandle DeathTimerHandle;
-
 	UPROPERTY(EditDefaultsOnly, Category = "Death", meta = (ClampMin = "0.1"))
 	float DeathDuration = 5.f;
 
-	UFUNCTION()
-	void DeathDurationFinished();
-
-	UFUNCTION()
-	void OnPlayAndWaitTaskEventTriggerInterrupted();
-
 	void TryGrantingXP();
 
-protected:
-
-	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
 };

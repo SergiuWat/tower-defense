@@ -62,3 +62,27 @@ void UTWDAbilitySystemComponent::HandleActivateOnGiven(const FGameplayAbilitySpe
 	}
 	
 }
+
+void UTWDAbilitySystemComponent::TrySendIntialAttributeGameplayEffectToSelf(FGameplayEffectContextHandle Context, TSubclassOf<UGameplayEffect> GameplayEffect, int32 AbilityLevel)
+{
+
+	if (!IsValid(GameplayEffect)) return;
+
+	FGameplayEffectContextHandle ContextHandle = Context;
+
+	if (!ContextHandle.IsValid())
+	{
+		ContextHandle = MakeEffectContext();
+	}
+	
+	ContextHandle.AddSourceObject(this);
+
+	FGameplayEffectSpecHandle SpecHandle = MakeOutgoingSpec(GameplayEffect, AbilityLevel, Context);
+
+	if (SpecHandle.IsValid())
+	{
+		ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+	}
+
+
+}

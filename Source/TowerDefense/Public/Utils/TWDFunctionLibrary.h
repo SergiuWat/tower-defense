@@ -7,6 +7,7 @@
 #include "TWDFunctionLibrary.generated.h"
 
 
+
 UENUM(BlueprintType)
 enum class EHitDirection : uint8
 {
@@ -16,6 +17,8 @@ enum class EHitDirection : uint8
 	Back
 };
 
+class APawn;
+struct FGenericTeamId;
 /**
  * 
  */
@@ -28,4 +31,6 @@ public:
 
 	static EHitDirection GetHitDirection(const FVector& TargetForward, const FVector& ToInstigator);
 	static FName GetHitDirectionName(const EHitDirection& HitDirection);
+	static bool IsTargetHostile(const AActor* InstigatorPawn,const AActor* TargetPawn);
+	static FGenericTeamId GetTeamIDFromActor(const AActor* Actor);
 };

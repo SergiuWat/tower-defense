@@ -12,6 +12,18 @@
 
 #include "TWDGameplayTags.h"
 
+ATWDPlayerController::ATWDPlayerController()
+{
+	PlayerCharacterTeamID = FGenericTeamId(0);
+}
+
+FGenericTeamId ATWDPlayerController::GetGenericTeamId() const
+{
+	return PlayerCharacterTeamID;
+}
+
+#pragma region Inputs
+
 void ATWDPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -118,3 +130,5 @@ void ATWDPlayerController::CancelAbilities(const FGameplayTagContainer& CancelAb
 
 	ASC->CancelAbilities(&CancelAbilitiesTagContainer);
 }
+
+#pragma endregion 

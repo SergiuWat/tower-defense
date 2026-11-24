@@ -12,10 +12,10 @@ void UDeath::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGam
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 
-
 	//
 	// Send gameplay effect
 	//
+
 	if (TriggerEventData)
 	{
 		TryGrantingXP();
@@ -23,7 +23,7 @@ void UDeath::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGam
 
 	checkf(IsValid(DeathMontage), TEXT("Please provide a valid HitReactMontage"));
 	
-	GetWorld()->GetTimerManager().SetTimer(DeathTimerHandle, this, &UDeath::DeathDurationFinished, DeathDuration, false);
+	GetAvatarActorFromActorInfo()->SetLifeSpan(DeathDuration);
 
 	if (!IsValid(DeathMontage))
 	{
@@ -39,25 +39,8 @@ void UDeath::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGam
 		return;
 	}
 
-	MontageTask->OnInterrupted.AddDynamic(this, &ThisClass::OnPlayAndWaitTaskEventTriggerInterrupted);
-	MontageTask->OnCancelled.AddDynamic(this, &ThisClass::OnPlayAndWaitTaskEventTriggerInterrupted);
-
 	MontageTask->ReadyForActivation();
 
-}
-
-void UDeath::EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled)
-{
-	GetWorld()->GetTimerManager().ClearTimer(DeathTimerHandle);
-
-	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
-
-}
-
-void UDeath::OnPlayAndWaitTaskEventTriggerInterrupted()
-{
-	GetAvatarActorFromActorInfo()->Destroy();
-	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, false, true);
 }
 
 void UDeath::TryGrantingXP()
@@ -65,30 +48,12 @@ void UDeath::TryGrantingXP()
 	if (ATWDEnemyCharacter* Enemy = Cast<ATWDEnemyCharacter>(GetAvatarActorFromActorInfo()))
 	{
 
-		UAbilitySystemComponent* ASC = GetAbilitySystemComponentFromActorInfo();
 		UAbilitySystemComponent* TargetASC = UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(CurrentEventData.Instigator);
 
-		if (!IsValid(ASC) || !IsValid(TargetASC)) return;
-
-		FGameplayEffectContextHandle Context = ASC->MakeEffectContext();
-		Context.AddSourceObject(this);
-
-		FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(XPRewardEffectClass, GetAbilityLevel(), Context);
-
-		if (!SpecHandle.IsValid()) return;
-
-
 		const FGameplayTag& XpTag = TWDGameplayTags::Enemies::Data::TWDGameplayTags_Enemies_Data_Xp;
-		SpecHandle.Data->SetSetByCallerMagnitude(XpTag, Enemy->XPReward);
-		ASC->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), TargetASC);
+
+		TrySendGameplayEffectToActor(TargetASC, FGameplayEffectContextHandle(), XPRewardEffectClass, XpTag, Enemy->XPReward);
+		
 	}
 
 }
-
-
-void UDeath::DeathDurationFinished()
-{
-	GetAvatarActorFromActorInfo()->Destroy();
-	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, false, false);
-}
-

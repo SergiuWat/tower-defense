@@ -65,7 +65,7 @@ void ATWDHud::TryInitializeOverlay()
 
 	XpChangedHandle = ASC->GetGameplayAttributeValueChangeDelegate(UTWDLevelSet::GetXpAttribute()).AddUObject(this, &ATWDHud::HandleXpChange);
 	MaxXpChangedHandle = ASC->GetGameplayAttributeValueChangeDelegate(UTWDLevelSet::GetMaxXpAttribute()).AddUObject(this, &ATWDHud::HandleXpChange);
-	LevelChangedHandle = ASC->GetGameplayAttributeValueChangeDelegate(UTWDLevelSet::GetCurrentLevelAttribute()).AddUObject(this, &ATWDHud::HandleXpChange);
+	LevelChangedHandle = ASC->GetGameplayAttributeValueChangeDelegate(UTWDLevelSet::GetCurrentLevelAttribute()).AddUObject(this, &ATWDHud::HandleLevelChange);
 
 	RefreshHUD();
 }
@@ -85,11 +85,17 @@ void ATWDHud::HandleXpChange(const FOnAttributeChangeData& Data)
 	RefreshXp();
 }
 
+void ATWDHud::HandleLevelChange(const FOnAttributeChangeData& Data)
+{
+	RefreshLevel();
+}
+
 void ATWDHud::RefreshHUD()
 {
 	RefreshHealth();
 	RefreshMana();
 	RefreshXp();
+	RefreshLevel();
 }
 
 void ATWDHud::RefreshHealth()
@@ -122,4 +128,14 @@ void ATWDHud::RefreshXp()
 	if (!IsValid(LevelSet)) return;
 
 	CharacterOverlay->UpdateXp(LevelSet->GetXp(), LevelSet->GetMaxXp());
+}
+
+void ATWDHud::RefreshLevel()
+{
+	if (!IsValid(ASC) || !IsValid(CharacterOverlay)) return;
+
+	const UTWDLevelSet* LevelSet = ASC->GetSet<UTWDLevelSet>();
+	if (!IsValid(LevelSet)) return;
+
+	CharacterOverlay->UpdateLevelText(LevelSet->GetCurrentLevel());
 }

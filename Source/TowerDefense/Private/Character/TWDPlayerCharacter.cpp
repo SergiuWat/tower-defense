@@ -37,6 +37,9 @@ ATWDPlayerCharacter::ATWDPlayerCharacter()
 
 	GetCharacterMovement()->bOrientRotationToMovement = false;
 
+	ThreatLevel = 2;
+
+	Tags.Add(FName("Player"));
 }
 
 void ATWDPlayerCharacter::BeginPlay()

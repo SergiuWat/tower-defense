@@ -3,7 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AbilitySystem/Abilities/Player/PlayerCharacterGameplayAbility.h"
+
+#include "AbilitySystem/Abilities/TWDGameplayAbility.h"
 #include "EquipWeapon.generated.h"
 
 class AWeaponBase;
@@ -11,7 +12,7 @@ class AWeaponBase;
  * 
  */
 UCLASS()
-class TOWERDEFENSE_API UEquipWeapon : public UPlayerCharacterGameplayAbility
+class TOWERDEFENSE_API UEquipWeapon : public UTWDGameplayAbility
 {
 	GENERATED_BODY()
 

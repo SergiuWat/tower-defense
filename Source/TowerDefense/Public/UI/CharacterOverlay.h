@@ -7,6 +7,7 @@
 #include "CharacterOverlay.generated.h"
 
 class UProgressBar;
+class UTextBlock;
 /**
  * 
  */
@@ -26,7 +27,11 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UProgressBar> XpBar;
 
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> LevelText;
+
 	void UpdateHealth(float Health, float MaxHealth);
 	void UpdateMana(float Mana, float MaxMana);
 	void UpdateXp(float Xp, float MaxXp);
+	void UpdateLevelText(float CurrentLevel);
 };

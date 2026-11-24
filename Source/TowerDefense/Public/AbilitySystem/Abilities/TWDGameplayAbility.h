@@ -4,10 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+
 #include "TWDGameplayAbility.generated.h"
 
 class UTWDAbilitySystemComponent;
 class UBaseCombatComponent;
+class UGameplayEffect;
+
 /**
  * 
  */
@@ -21,5 +24,7 @@ public:
 	
 	UFUNCTION(BlueprintPure)
 	UTWDAbilitySystemComponent* GetTWDAbilitySystemComponent() const;
+
+	virtual void TrySendGameplayEffectToActor(UAbilitySystemComponent* TargetASC, FGameplayEffectContextHandle Context, TSubclassOf<UGameplayEffect> GameplayEffect, const FGameplayTag& EffectTag, float Magnitude);
 
 };

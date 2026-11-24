@@ -15,3 +15,8 @@ UAbilitySystemComponent* ATWDBaseCharacter::GetAbilitySystemComponent() const
 	return nullptr;
 }
 
+int32 ATWDBaseCharacter::GetThreatLevel() const
+{
+	return ThreatLevel;
+}
+
